@@ -1,0 +1,25 @@
+<div id="page">
+    <div id="loginpage">
+        <form id="loginform">
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" [(ngModel)]="email" name="email"/>
+
+            <label for="upwd">Password:</label>
+            <input type="password" id="upwd" [(ngModel)]="upwd" name="upwd"/>
+
+            <button type="submit" (click)="loginClicked()">Login</button>
+
+        </form>
+    </div>
+
+    <br>
+
+    <div id="errorMessage" class="hideMessage">User credentials do not match</div>
+    <div id="postResultDiv"></div>
+
+    <br>
+
+    <a href="/account">Account</a>
+
+</div>

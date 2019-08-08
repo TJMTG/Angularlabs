@@ -13,3 +13,7 @@ app.use(express.static(path.join(__dirname, '../dist/week5/')));
 
 require('./routes/api-login.js')(app, path);
 require('./listen.js')(http);
+
+app.get('/api/auth', function(req,res){
+    //res.sendFile(__dirname + '/www/form.html');
+});

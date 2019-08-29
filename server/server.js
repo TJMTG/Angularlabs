@@ -1,5 +1,5 @@
 
-
+var fs = require('file-system');
 var express = require('express');
 var app = express();
 
@@ -9,32 +9,49 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../dist/week5/')));
+app.use(express.static(path.join(__dirname, '../dist/week4/')));
+
+var http = require("http").Server(app);
+var server = http.listen(3000, function() {
+    console.log("Server listening on port 3000");
+});
 
 require('./routes/api-login.js')(app, path);
 require('./listen.js')(http);
 
+app.post('/api/auth', function(req,res){
 
-//app.get('/account', function(req,res){
-//});
-
-app.post('/api/login', function(req,res){
-    let users = [
-        {'email':'123@com.au', 'pwd':'123'},
-        {'email':'abc@com.au', 'pwd':'123'},
-        {'email':'xyz@com.au', 'pwd':'123'}
-    ]
     if (!req.body){
         return res.sendStatus(400)
     }
-    var customer = {}; //create a new customer object that can be sent back as a response
-    customer.email = req.body.email; //add in the value of the typed email
-    customer.upwd = req.body.upwd; //add in the value of the type password. (This is an ill advised method of sending passwords.)
-    customer.valid = false //set to false by default
-    for (let i = 0; i < users.length; i++){ //loop over each of the users to test for a match. (This would be better to do with a database.)
-        if (req.body.email == users[i].email && req.body.upwd == users[i].pwd){
-            customer.valid = true;
+
+    var userCredentials = {};
+    userCredentials.username = req.body.username;
+    userCredentials.pwd = req.body.pwd;
+    userCredentials.valid = "false";
+    
+    fs.readFile('./server/data/users.json', 'utf8', function(err, data){
+        if (err) throw err;
+        let userArray = JSON.parse(data);
+        console.log(userArray);
+
+        let i = userArray.findIndex(user => (
+            (user.username == userCredentials.username) 
+            && (user.pwd == userCredentials.pwd)
+        ));
+    
+        if (i == -1){
+            res.send({ "userFound?":false });
+        } else {
+            console.log(userArray[i]);
+            userCredentials.valid = "true";
+            res.send(userCredentials);
         }
-    }
-    res.send(customer);
+
+    });
 });
+
+/*
+app.post('/testing', require('./router/testing'));
+app.post('/logout', require('./router/logout'));
+*/

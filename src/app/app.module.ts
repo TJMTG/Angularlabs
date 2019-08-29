@@ -9,6 +9,7 @@ import { AccountComponent } from './account/account.component';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component'; //used for [(ngModel)] - Two-way data binding to a HTML form element
 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ProfileComponent } from './profile/profile.component'; //used for [(ngM
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

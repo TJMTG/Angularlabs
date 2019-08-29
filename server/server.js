@@ -1,7 +1,8 @@
 
-var fs = require('file-system');
 var express = require('express');
 var app = express();
+
+var fs = require('file-system');
 
 const path = require('path');
 const http = require('http').Server(app);
@@ -41,7 +42,7 @@ app.post('/api/auth', function(req,res){
         ));
     
         if (i == -1){
-            res.send({ "userFound?":false });
+            res.send(userCredentials);
         } else {
             console.log(userArray[i]);
             userCredentials.valid = "true";

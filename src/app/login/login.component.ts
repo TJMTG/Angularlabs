@@ -1,55 +1,75 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type':'application/json'})
 };
+//for angualr http methods
+import { NgForm } from '@angular/forms';
+//import { Userpwd } from '../userpwd';
+import { UserOBJ } from './UserOBJ';
+import { Router } from '@angular/router';
+//import { USERPWDS } from '../mock-users';
 
-const BACKEND_URL = 'http://localhost:4200';
+const BACKEND_URL = 'http://localhost:3000';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
 
+export class LoginComponent implements OnInit {
   loginFormUsername = "";
-  loginFormPassword = "";
+  //loginFormPassword = "";
+
+  userOBJ: UserOBJ = {
+    username: this.loginFormUsername, 
+    //password: this.loginFormPassword,  
+    email: null,
+    role: null,
+    valid: "false"
+  }
 
   constructor(private router: Router, private el: ElementRef, private httpClient: HttpClient){}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  loginClicked(){
+ public loginClicked(){
+    console.log("Login was clicked");
+    sessionStorage.clear();
+    console.log("Session Storage Cleared");
+
+    this.userOBJ.username = this.loginFormUsername;
+    //this.userOBJ.pwd = this.loginFormPassword;
+
     this.httpClient.post(
-      BACKEND_URL + '/api/auth', this.loginFormPassword, httpOptions
-    ).subscribe((res: any) => {
-      if (res.valid) {
-        if (typeof(Storage) !== "undefined"){
-          console.log('Storage ready');
-          sessionStorage.setItem("username", res.username);
-          sessionStorage.setItem("email", res.email);
-          sessionStorage.setItem("Role", res.Role);
-          sessionStorage.setItem("valid", res.valid);
-          if (true == true){
-            console.log("Username: ", sessionStorage.getItem("username"));
-            console.log("Birthdate: ", sessionStorage.getItem("birthdate"));
-            console.log("Age: ", sessionStorage.getItem("age"));
-            console.log("Email: ", sessionStorage.getItem("email"));
+        BACKEND_URL + '/loginSTART', this.userOBJ, httpOptions
+      ).subscribe((data: any) => {
+        if (data.ok) {
+          if (typeof(Storage) !== "undefined"){
+            console.log('Storage ready');
+            sessionStorage.setItem("username", JSON.stringify(data.result.username));
+            sessionStorage.setItem("email", JSON.stringify(data.result.email));
+            sessionStorage.setItem("role", JSON.stringify(data.result.role));
+            if (true == true){
+              console.log("Username: ", sessionStorage.getItem("username"));
+              console.log("email: ", sessionStorage.getItem("email"));
+              console.log("role: ", sessionStorage.getItem("role"));
+            }
+            this.httpClient.post<UserOBJ[]>(BACKEND_URL + '/loginEND', data.result, httpOptions)
+            .subscribe((m: any) => {console.log("m: ", m);});
+            this.router.navigateByUrl('/account');
+          } else {
+            console.log("No Storage Support.");
           }
         } else {
-          console.log("No Storage Support.");
+          let loginTag = this.el.nativeElement.querySelector('#loginform');
+          let errorTag = this.el.nativeElement.querySelector('#errorMessage');
+          loginTag.classList.add('fail');
+          errorTag.classList.remove('hideMessage');
+          errorTag.classList.add('showMessage');
         }
-      } else {
-        let loginTag = this.el.nativeElement.querySelector('#loginform');
-        let errorTag = this.el.nativeElement.querySelector('#errorMessage');
-        loginTag.classList.add('fail');
-        errorTag.classList.remove('hideMessage');
-        errorTag.classList.add('showMessage');
-      }
     });
   }
 }

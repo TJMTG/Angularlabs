@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,11 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'week5';
+  title = 'Chatter';
+  isLoggedIn = false;
 
-  clearSes(){
+  logout(){
     sessionStorage.clear();
     console.log("Session Storage Cleared");
+    this.isLoggedIn = false;
   }
 
 }

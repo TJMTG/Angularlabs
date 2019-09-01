@@ -6,8 +6,10 @@
             <label for="email">Username:</label>
             <input type="text" id="username" [(ngModel)]="loginFormUsername" name="username"/>
 
+            <!--
             <label for="upwd">Password:</label>
             <input type="password" id="upwd" [(ngModel)]="loginFormPassword" name="upwd"/>
+            -->
 
             <button type="submit" (click)="loginClicked()">Login</button>
 
@@ -16,7 +18,7 @@
 
     <br>
 
-    <div id="errorMessage" class="hideMessage">User credentials do not match</div>
+    <div id="errorMessage" class="hideMessage">User credentials do not match.</div>
     <!--Don't think that the tag below is in use.-->
     <div id="postResultDiv"></div>
 

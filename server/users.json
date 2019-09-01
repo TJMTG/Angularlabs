@@ -1,5 +1,0 @@
-[
-    {"username":"user1", "pwd":"123", "email":"123@com.au", "role":"superAdmin", "valid":"false"},
-    {"username":"user2", "pwd":"123", "email":"abc@com.au", "role":"", "valid":"false"},
-    {"username":"user3", "pwd":"123", "email":"xyz@com.au", "role":"", "valid":"false"}
-]

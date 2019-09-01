@@ -1,9 +1,13 @@
  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">Chatter</a> |
+    <a class="navbar-brand">Chatter</a>
     <a class="nav-link" routerLink="/account">Account</a>
-    <a class="nav-link" routerLink="/profile">Profile</a> |
-    <a class="nav-link" routerLink="/login">Login</a>
-    <a class="nav-link" (click)="clearSes()" routerLink="/login">Logout</a>
+    <a class="nav-link" routerLink="/profile">Profile</a>
+    <!--<ng-template [ngIf]="isNotLoggedIn" [ngIfElse]="isLoggedIn">-->
+        <a class="nav-link" routerLink="/login">Login</a>
+    <!--</ng-template>
+    <ng-template #isNotLoggedIn>-->
+        <a class="nav-link" (click)="logout()" routerLink="/login">Logout</a>
+    <!--</ng-template>-->
 </nav>
 
  <div class="container">

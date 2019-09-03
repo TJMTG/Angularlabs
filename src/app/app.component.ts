@@ -8,12 +8,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'Chatter';
-  isLoggedIn = false;
+  isLoggedIn = sessionStorage.getItem("username");
 
   logout(){
     sessionStorage.clear();
     console.log("Session Storage Cleared");
-    this.isLoggedIn = false;
+    //this.isLoggedIn = null;
   }
+  
+  //login(){
+  //  this.isLoggedIn = sessionStorage.getItem("username");
+  //}
 
 }

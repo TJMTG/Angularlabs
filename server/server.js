@@ -46,10 +46,21 @@ var server = http.listen(3000, function() {
 //require('./listen.js')(http);
 
 //first parameter is a url, second is a callback function- given as a seperate file
-app.post('/loginSTART', require('./router/doLoginSTART'));
-app.post('/loginEND', require('./router/doLoginEND'));
+app.post('/login', require('./router/doLogin'));
 
-/*
-app.post('/testing', require('./router/testing'));
-app.post('/logout', require('./router/logout'));
-*/
+app.post('/getGroups', require('./router/group/doGetGroups'));
+
+app.post('/createUser', require('./router/user/doCreateUser'));
+app.post('/deleteUser', require('./router/user/doDeleteUser'));
+
+app.post('/createGroup', require('./router/group/doCreateGroup'));
+app.post('/deleteGroup', require('./router/group/doDeleteGroup'));
+
+app.post('/pairGroupUser', require('./router/pair_group_user/doPairGroupUser'));
+app.post('/depairGroupUser', require('./router/pair_group_user/doDepairGroupUser'));
+
+app.post('/createChannel', require('./router/channel/doCreateChannel'));
+app.post('/deleteChannel', require('./router/channel/doDeleteChannel'));
+
+app.post('/pairGroupChannelUser', require('./router/pair_group_channel_user/doPairGroupChannelUser'));
+app.post('/depairGroupChannelUser', require('./router/pair_group_channel_user/doDepairGroupChannelUser'));

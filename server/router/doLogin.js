@@ -6,7 +6,7 @@ module.exports = function(req, res){
     fs.readFile('./server/data/users.json', 'utf8', function(err, data){
         if (err) throw err;
         let userArray = JSON.parse(data);
-        let i = userArray.findIndex(user => (
+        var i = userArray.findIndex(user => (
             (user.username == u) //&& (user.pwd == p)
         ));
         if (i == -1){

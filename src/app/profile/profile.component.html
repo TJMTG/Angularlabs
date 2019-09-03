@@ -1,3 +1,214 @@
 
 <br>
+<div *ngIf="userRole == 'superAdmin'">
+    <h3>superAdmin</h3>
+    <h4>Special privileges:</h4>
+    <ul>
+        <li>Create a regularUser/groupAssis/groupAdmin/superUser</li>
+        <li>Delete a regularUser/groupAssis/groupAdmin/superUser</li>
+        <li>Create a group</li>
+        <li>Delete a group</li>
+        <li>Create a channel in a group (i.e. subgroup)</li>
+        <li>Delete a channel in a group</li>
+        <li>Add users to a group</li>
+        <li>Remove users from a group</li>
+        <li>Make a user a groupAssis of a group</li>
+        <li>Add users to a channel</li>
+        <li>Remove users from a channel</li>
+        <li>Unsure: </li>
+        <ul>
+            <li>Can see all users of type: regularUser/groupAssis/groupAdmin/superUser</li>
+            <li>Can see all groups and channels</li>
+        </ul>
+    </ul>
+</div>
 
+<div *ngIf="userRole == 'groupAdmin'">
+    <h3>groupAdmin</h3>
+    <h4>Special privileges:</h4>
+    <ul>
+        <li>Create a regularUser/groupAssis</li>
+        <li>Delete a regularUser/groupAssis</li>
+        <li>Create a group</li>
+        <li>Delete a group</li>
+        <li>Create a channel in a group (i.e. subgroup)</li>
+        <li>Delete a channel in a group</li>
+        <li>Add users to a group</li>
+        <li>Remove users from a group</li>
+        <li>Make a user a groupAssis of a group</li>
+        <li>Add users to a channel</li>
+        <li>Remove users from a channel</li>
+        <li>Unsure: </li>
+        <ul>
+            <li>Can see all users of type: regularUser/groupAssis/groupAdmin/superUser</li>
+            <li>Can see all groups and channels</li>
+        </ul>
+    </ul>
+</div>
+
+<div *ngIf="userRole == 'groupAssis'">
+    <h3>groupAssis</h3>
+    <h4>Special privileges:</h4>
+    <ul>
+        <li>Create a channel in a group (i.e. subgroup) of a group (or groups) they are a groupAssis of</li>
+        <li>Delete a channel in a group (i.e. subgroup) of a group (or groups) they are a groupAssis of</li>
+        <li>Add users to a channel in a group (or groups) they are a groupAssis of</li>
+        <li>Remove users from a channel in a group (or groups) they are a groupAssis of</li>
+        <li>Unsure: </li>
+        <ul>
+            <li>Can see all users of type: regularUser/groupAssis/groupAdmin/superUser</li>
+            <li>Can see all groups and channels</li>
+        </ul>
+    </ul>
+</div>
+
+<div *ngIf="userRole == 'regularUser'">
+    <h3>regularUser</h3>
+    <ul>
+        <li>Can see groups or channels user is added to</li>
+        <li>Cannot see groups or channels user isn't added to</li>
+    </ul>
+</div>
+
+<!--
+<h3>Testing</h3>
+<form>
+    <label>Username:</label>
+    <input [(ngModel)]="testing" name="testing">
+    <button type="submit" (click)="testingClicked()">Test</button>
+</form>
+-->
+
+<div *ngIf="userRole == 'superAdmin' || userRole == 'groupAdmin'">
+    <br>
+    <form id="createUserForm">
+        <h3>Create a User</h3>
+        <label for="createUsername">Username:</label>
+        <input type="text" id="createUsername" [(ngModel)]="createUsername" name="createUsername"/>
+        <label for="createEmail">Email:</label>
+        <input type="text" id="createEmail" [(ngModel)]="createEmail" name="createEmail"/>
+        <label for="createRole">Role:</label>
+        <ng-template [ngIf]="userRole == 'superAdmin'" [ngIfElse]="groupAdmin">
+            <select name="createRole" [(ngModel)]="createRole">
+                <option value="superAdmin">superAdmin</option>
+                <option value="groupAdmin">groupAdmin</option>
+                <option value="groupAssis">groupAssis</option>
+                <option value="regularUser">regularUser</option>
+            </select>
+        </ng-template>
+        <ng-template #groupAdmin>
+            <select name="createRole" [(ngModel)]="createRole">
+                <option value="groupAssis">groupAssis</option>
+                <option value="regularUser">regularUser</option>
+            </select>
+        </ng-template>  
+        <br>      
+        <button type="submit" (click)="createUserClicked()">Create</button>
+    </form>
+</div>
+
+<div *ngIf="userRole == 'superAdmin'">
+    <br><br>
+    <form id="deleteUserForm">
+        <h3>Delete a User</h3>
+        <label for="deleteUsername">Username:</label>
+        <input type="text" id="deleteUsername" [(ngModel)]="deleteUsername" name="deleteUsername"/>
+        <button type="submit" (click)="deleteUserClicked()">Delete</button>
+    </form>
+</div>
+
+<div *ngIf="userRole == 'superAdmin' || userRole == 'groupAdmin'">
+ <!--create a group, delete a group-->
+ <!--create a channel, delete a channel-->
+ <!--add/remove a user to/from a group/channel-->
+ <!--make a user a groupAssis of a group-->
+    <br><br>
+    <form id="createGroupForm">
+        <h3>Create a Group</h3>
+        <label for="createGroup">Group Name:</label>
+        <input type="text" id="createGroup" [(ngModel)]="createGroup" name="createGroup"/>
+        <button type="submit" (click)="createGroupClicked()">Create</button>
+    </form>
+
+    <br><br>
+    <form id="deleteGroupForm">
+        <h3>Delete a Group</h3>
+        <label for="deleteGroup">Group Name:</label>
+        <input type="text" id="createGroup" [(ngModel)]="deleteGroup" name="deleteGroup"/>
+        <button type="submit" (click)="deleteGroupClicked()">Delete</button>
+    </form>
+
+    <br><br>
+    <form id="addUserToGroupForm">
+        <h3>Add a user to a Group</h3>
+        <label for="pair_U_G_groupname">Group Name:</label>
+        <input type="text" id="pair_U_G_groupname" [(ngModel)]="pair_U_G_groupname" name="pair_U_G_groupname"/>
+        <label for="pair_U_G_username">Username:</label>
+        <input type="text" id="pair_U_G_username" [(ngModel)]="pair_U_G_username" name="pair_U_G_username"/>
+        <button type="submit" (click)="pair_U_G_Clicked()">Add to Group</button>
+    </form>
+
+    <br><br>
+    <form id="removeUserToGroupForm">
+        <h3>Remove a user from a Group</h3>
+        <label for="depair_U_G_groupname">Group Name:</label>
+        <input type="text" id="depair_U_G_groupname" [(ngModel)]="depair_U_G_groupname" name="depair_U_G_groupname"/>
+        <label for="depair_U_G_username">Username:</label>
+        <input type="text" id="depair_U_G_username" [(ngModel)]="depair_U_G_username" name="depair_U_G_username"/>
+        <button type="submit" (click)="depair_U_G_Clicked()">Remove from Group</button>
+    </form>
+
+    <br><br>
+    <form id="createChannelForm">
+        <h3>Create a channel</h3>
+        <label for="createChannel_groupname">Group Name:</label>
+        <input type="text" id="createChannel_groupname" [(ngModel)]="createChannel_groupname" name="createChannel_groupname"/>
+        <label for="createChannel_channelname">Channel Name:</label>
+        <input type="text" id="createChannel_channelname" [(ngModel)]="createChannel_channelname" name="createChannel_channelname"/>
+        <button type="submit" (click)="createChannelClicked()">Create</button>
+    </form>
+
+    <br><br>
+    <form id="deleteChannelForm">
+        <h3>Delete a channel</h3>
+        <label for="deleteChannel_groupname">Group Name:</label>
+        <input type="text" id="deleteChannel_groupname" [(ngModel)]="deleteChannel_groupname" name="deleteChannel_groupname"/>
+        <label for="deleteChannel_channelname">Channel Name:</label>
+        <input type="text" id="deleteChannel_channelname" [(ngModel)]="deleteChannel_channelname" name="deleteChannel_channelname"/>
+        <button type="submit" (click)="deleteChannelClicked()">Delete</button>
+    </form>
+
+    <br><br>
+    <form id="addUserToChannelForm">
+        <h3>Add a user to a channel</h3>
+        <label for="pair_U_C_groupname">Group Name:</label>
+        <input type="text" id="pair_U_C_groupname" [(ngModel)]="pair_U_C_groupname" name="pair_U_C_groupname"/>
+        <label for="pair_U_C_channelname">Channel Name:</label>
+        <input type="text" id="pair_U_C_channelname" [(ngModel)]="pair_U_C_channelname" name="pair_U_C_channelname"/>
+        <label for="pair_U_C_username">Username:</label>
+        <input type="text" id="pair_U_C_username" [(ngModel)]="pair_U_C_username" name="pair_U_C_username"/>
+        <button type="submit" (click)="pair_U_C_Clicked()">Add to channel</button>
+    </form>
+
+    <br><br>
+    <form id="removeUserFromChannelForm">
+        <h3>Remove a user from a channel</h3>
+        <label for="depair_U_C_groupname">Group Name:</label>
+        <input type="text" id="depair_U_C_groupname" [(ngModel)]="depair_U_C_groupname" name="depair_U_C_groupname"/>
+        <label for="depair_U_C_channelname">Channel Name:</label>
+        <input type="text" id="depair_U_C_channelname" [(ngModel)]="depair_U_C_channelname" name="depair_U_C_channelname"/>
+        <label for="depair_U_C_username">Username:</label>
+        <input type="text" id="depair_U_C_username" [(ngModel)]="depair_U_C_username" name="depair_U_C_username"/>
+        <button type="submit" (click)="depair_U_C_Clicked()">Remove from channel</button>
+    </form>
+</div>
+
+<div *ngIf="userRole == 'groupAssis'">
+    <!--of group(s) they are groupAssis of:-->
+    <!--create a group, delete a group-->
+    <!--create a channel, delete a channel-->
+    <!--add/remove a user to/from a group/channel-->
+
+</div>
+
+<br>

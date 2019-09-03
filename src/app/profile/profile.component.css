@@ -3,7 +3,7 @@ form input, form label{
     display: block;
 }
 
-form input {
+form input, select {
     margin-bottom: 1em;
     padding: 0.5em;
 }

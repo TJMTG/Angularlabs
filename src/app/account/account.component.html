@@ -11,12 +11,18 @@
   <input type="text" value={{FORM_role}} readonly>
   
   <button type="submit" (click)="saveClicked()">Save</button>
-
-  <br>
-  <br>
-  <h3>Your Groups:</h3>
-  <ol>
-    <li *ngFor="let group of groups">{{group}}</li>
-  </ol>
-
 </form>
+
+<br>
+<br>
+<h3>Your Groups:</h3>
+<ol>
+  <li *ngFor="let group of groups">{{group}}</li>
+</ol>
+
+<br>
+<br>
+<form>
+  <button type="submit" (click)="updateGroupsClicked()">Update Groups</button>
+</form>
+  

@@ -19,16 +19,7 @@ export class AccountComponent implements OnInit {
   FORM_email = JSON.parse(sessionStorage.getItem("email"));
   FORM_role = JSON.parse(sessionStorage.getItem("role"));
 
-  groups = ['thing', 'a', 'ma', ['is', 'this', 'what', 'you', 'want'], 'bob']
-  
-  /*this.httpClient.post(
-    BACKEND_URL + '/groupSTART', this.userOBJ, httpOptions
-  ).subscribe((data: any) => {
-    if (data.ok) {
-      
-    }
-  });
-  */
+  groups = "";
 
   constructor(private router: Router, private httpClient: HttpClient) { }
 
@@ -41,6 +32,14 @@ export class AccountComponent implements OnInit {
   saveClicked(){
     sessionStorage.setItem("username", JSON.stringify(this.FORM_username));
     sessionStorage.setItem("email", JSON.stringify(this.FORM_email));
+  }
+
+  updateGroupsClicked(){
+    this.httpClient.post(
+      BACKEND_URL + '/getGroups', JSON.parse(sessionStorage.getItem("username")), httpOptions
+    ).subscribe((data: any) => {
+      this.groups = data.results;
+    });
   }
 
 }

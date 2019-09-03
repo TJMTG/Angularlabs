@@ -1,27 +1,25 @@
-# Week4
+# Git
+My git repository is structured by week, allowing for a version control to have working, and functionally significant, 
+code as a fall-back point, should something go wrong.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.3.
+# Data Structures
+The approach I took to structuring data in my assignment was to use JSON files, structuring as you would a database. 
+Data was grouped in as narrow groups as possible, with lone JSON files dedicated to linking other JSON files. 
+The way users and groups were represented in their givens files as their own object.
 
-## Development server
+# REST API
+I used routes for creating users, groups, channels as well as deleting them. I also used routes for adding or removing users 
+to groups or channels. 
+The parameters were res and req. They stand for response and request respectively. 
+The return values in most routes was an object contain a true or false assigned to the “ok” key and a string, containing feedback 
+of what has, or has not, happened. 
+Most of them read and wrote to various files, for reasons like check whether a user, group or channel exists or adding a new user, 
+group or channel to the relevant JSON file.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Angular Architecture
+I used components for my login, profile and account page. Angular’s ngModel was used frequently as a form of two-way binding. 
+For example, it was used to extract information users inputted into forms. Services were not used.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+# State Change
+The client and server interacted with the REST API. 
+When the client received a response form the server it is able to update a given angular component accordingly. 

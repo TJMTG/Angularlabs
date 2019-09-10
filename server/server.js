@@ -6,20 +6,12 @@ const express = require('express');
 //It is created by calling the top-level express() function exported by the express module
 const app = express();
 
-// The fs module provides an API for interacting with the file system
-const fs = require('fs');
-
-//This module provides functionality to extract a filename from a file path
-const path = require('path');
-
 //Cross origin resource sharing to cater for port 4200 to port 3000
 const cors = require('cors'); // imports the cors module
 app.use(cors()); // add cors middleware to the express application
 
 //This module will act as a middleman between my handlers, parsing data (available under req.body)
 const bodyParser = require('body-parser');
-//
-app.use(bodyParser.urlencoded({ extended: true }));
 //
 //mounts the specified middleware function at he specified path: the middlewere function is exectued when the base
 //of the requested path matches path. In this case we are using middleware to parse JSON data
@@ -28,39 +20,31 @@ app.use(bodyParser.json());
 //Used to provide http functionality
 const http = require('http').Server(app);
 
-//const io = require('sicjet.io')(http);
+//require MongoClient functionality
+const MongoClient = require('mongodb').MongoClient;
+//require ObjectID functionality
+var ObjectID = require('mongodb').ObjectID;
 
-//const sockets = require('./socket.js');
-
-//const server = require('./listen.js');
-
-//Tells express server to allow public files to be hosted in a sub-directory called ""
-app.use(express.static(path.join(__dirname + '/../dist/week4/')));
-console.log("Here is the dirname: ", __dirname);
-
-var server = http.listen(3000, function() {
-    console.log("Server listening on port: 3000");
-});
-
-//require('./routes/api-login.js')(app, path);
-//require('./listen.js')(http);
-
-//first parameter is a url, second is a callback function- given as a seperate file
-app.post('/login', require('./router/doLogin'));
-
-app.post('/getGroups', require('./router/group/doGetGroups'));
-
-app.post('/createUser', require('./router/user/doCreateUser'));
-app.post('/deleteUser', require('./router/user/doDeleteUser'));
-
-app.post('/createGroup', require('./router/group/doCreateGroup'));
-app.post('/deleteGroup', require('./router/group/doDeleteGroup'));
-
-app.post('/pairGroupUser', require('./router/pair_group_user/doPairGroupUser'));
-app.post('/depairGroupUser', require('./router/pair_group_user/doDepairGroupUser'));
-
-app.post('/createChannel', require('./router/channel/doCreateChannel'));
-app.post('/deleteChannel', require('./router/channel/doDeleteChannel'));
-
-app.post('/pairGroupChannelUser', require('./router/pair_group_channel_user/doPairGroupChannelUser'));
-app.post('/depairGroupChannelUser', require('./router/pair_group_channel_user/doDepairGroupChannelUser'));
+const url = 'mongodb://localhost:27017';
+MongoClient.connect(
+    url, 
+    {
+        poolSize: 10, 
+        useNewUrlParser: true, 
+        useUnifiedTopology: true, 
+    },
+    function(err, client){
+        if (err) {return console.log(err)}
+        const dbName = 'mydb';
+        const db = client.db(dbName);
+        require('./route/api_add.js')(db, app);
+        require('./route/api_productCount.js')(db, app);
+        require('./route/api_validID.js')(db, app);
+        require('./route/api_getList.js')(db, app);
+        require('./route/api_getItem.js')(db, app);
+        require('./route/api_update.js')(db, app);
+        require('./route/api_deleteItem.js')(db, app);
+        //start the server listening on port 3000.
+        //outputs message to consol once server has started (diagnostic only)
+        require('./listen.js')(http);
+    });

@@ -44,9 +44,9 @@ export class LoginComponent implements OnInit {
     //this.userOBJ.pwd = this.loginFormPassword;
 
     this.httpClient.post(
-        BACKEND_URL + '/loginSTART', this.userOBJ, httpOptions
+        BACKEND_URL + '/login', this.userOBJ, httpOptions
       ).subscribe((data: any) => {
-        if (data.ok) {
+        if (data.ok == true) {
           if (typeof(Storage) !== "undefined"){
             console.log('Storage ready');
             sessionStorage.setItem("username", JSON.stringify(data.result.username));
